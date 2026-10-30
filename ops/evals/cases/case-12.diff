@@ -1,0 +1,85 @@
+diff --git a/backend/tests/InvoiceApp.Tests/Architecture/DomainDependencyTests.cs b/backend/tests/InvoiceApp.Tests/Architecture/DomainDependencyTests.cs
+new file mode 100644
+--- /dev/null
++++ b/backend/tests/InvoiceApp.Tests/Architecture/DomainDependencyTests.cs
+@@ -0,0 +1,80 @@
++using System.Xml.Linq;
++using InvoiceApp.Domain;
++using Xunit;
++
++namespace InvoiceApp.Tests.Architecture;
++
++/// <summary>
++/// Rule: InvoiceApp.Domain depends on nothing but the .NET base class library.
++/// Web, storage, messaging and PayEx code live in InvoiceApp.Api behind Domain interfaces.
++/// </summary>
++public class DomainDependencyTests
++{
++    private const string Guidance =
++        "InvoiceApp.Domain must not depend on web, storage, networking or integration code. " +
++        "Put that code behind an interface in Domain and implement it in InvoiceApp.Api.";
++
++    private static readonly string[] ForbiddenBaseLibraryPrefixes =
++    {
++        "System.Net",
++        "System.Data",
++        "System.Web",
++    };
++
++    private static readonly string[] ReferenceElements =
++    {
++        "PackageReference",
++        "ProjectReference",
++        "FrameworkReference",
++    };
++
++    [Fact]
++    [Trait("Category", "Architecture")]
++    public void DomainAssembly_ReferencesOnlyTheBaseClassLibrary()
++    {
++        var forbidden = typeof(ApprovalService).Assembly.GetReferencedAssemblies()
++            .Select(reference => reference.Name ?? string.Empty)
++            .Where(name => !IsBaseLibrary(name))
++            .OrderBy(name => name)
++            .ToList();
++
++        Assert.True(forbidden.Count == 0, $"{Guidance} Forbidden assembly references: {string.Join(", ", forbidden)}");
++    }
++
++    // Compiled references miss constants (inlined by the compiler) and references that are declared but unused.
++    [Fact]
++    [Trait("Category", "Architecture")]
++    public void DomainProject_DeclaresNoPackageProjectOrFrameworkReferences()
++    {
++        var project = XDocument.Load(FindDomainProjectFile());
++
++        var declared = project.Descendants()
++            .Where(element => ReferenceElements.Contains(element.Name.LocalName))
++            .Select(element => $"{element.Name.LocalName} {element.Attribute("Include")?.Value}")
++            .ToList();
++
++        Assert.True(declared.Count == 0, $"{Guidance} Declared in InvoiceApp.Domain.csproj: {string.Join(", ", declared)}");
++    }
++
++    private static bool IsBaseLibrary(string assemblyName)
++    {
++        var isSystem = assemblyName is "System" or "netstandard" or "mscorlib"
++            || assemblyName.StartsWith("System.", StringComparison.Ordinal);
++
++        return isSystem
++            && !ForbiddenBaseLibraryPrefixes.Any(prefix => assemblyName.StartsWith(prefix, StringComparison.Ordinal));
++    }
++
++    private static string FindDomainProjectFile()
++    {
++        for (var directory = new DirectoryInfo(AppContext.BaseDirectory); directory is not null; directory = directory.Parent)
++        {
++            if (File.Exists(Path.Combine(directory.FullName, "InvoiceApp.sln")))
++            {
++                return Path.Combine(directory.FullName, "src", "InvoiceApp.Domain", "InvoiceApp.Domain.csproj");
++            }
++        }
++
++        throw new FileNotFoundException("Could not find InvoiceApp.sln above " + AppContext.BaseDirectory);
++    }
++}

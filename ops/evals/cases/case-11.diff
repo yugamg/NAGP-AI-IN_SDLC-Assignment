@@ -1,0 +1,44 @@
+diff --git a/backend/src/InvoiceApp.Api/Clients/PayExClient.cs b/backend/src/InvoiceApp.Api/Clients/PayExClient.cs
+--- a/backend/src/InvoiceApp.Api/Clients/PayExClient.cs
++++ b/backend/src/InvoiceApp.Api/Clients/PayExClient.cs
+@@ -5,20 +5,26 @@ namespace InvoiceApp.Api.Clients;
+ public class PayExClient : IPayExClient
+ {
+-    private readonly HttpClient _http;
+     private readonly PayExOptions _options;
+
+-    public PayExClient(HttpClient http, PayExOptions options)
++    public PayExClient(PayExOptions options)
+     {
+-        _http = http;
+         _options = options;
+     }
+
+     public async Task<PayExReceipt> SubmitAsync(Invoice invoice, CancellationToken ct = default)
+     {
+-        var response = await _http.PostAsJsonAsync("/v2/payments", Map(invoice), ct);
++        var http = new HttpClient
++        {
++            BaseAddress = new Uri(_options.BaseUrl)
++        };
++        http.DefaultRequestHeaders.Add("X-Api-Key", _options.ApiKey);
++
++        var response = await http.PostAsJsonAsync("/v2/payments", Map(invoice), ct);
+         response.EnsureSuccessStatusCode();
+         return await response.Content.ReadFromJsonAsync<PayExReceipt>(cancellationToken: ct)
+                ?? throw new InvalidOperationException("PayEx returned an empty receipt.");
+     }
+diff --git a/backend/src/InvoiceApp.Api/Program.cs b/backend/src/InvoiceApp.Api/Program.cs
+--- a/backend/src/InvoiceApp.Api/Program.cs
++++ b/backend/src/InvoiceApp.Api/Program.cs
+@@ -18,11 +18,7 @@ builder.Services.AddSingleton<IInvoiceRepository, InMemoryInvoiceRepository>();
+ builder.Services.AddScoped<ApprovalService>();
+
+-builder.Services.AddHttpClient<IPayExClient, PayExClient>(client =>
+-{
+-    client.BaseAddress = new Uri(builder.Configuration["PayEx:BaseUrl"]!);
+-    client.Timeout = TimeSpan.FromSeconds(10);
+-});
++builder.Services.AddSingleton<IPayExClient, PayExClient>();
+
+ var app = builder.Build();

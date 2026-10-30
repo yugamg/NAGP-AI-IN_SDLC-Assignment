@@ -1,0 +1,73 @@
+run,case,model,prompt_version,verdict,finding_summary,confidence_reported,notes
+1,case-01,sonnet,v1,caught,"Null Ids NRE; partial approval, no Handle so 404/409 become 500",high,key=defect; confidence statements=6
+1,case-02,sonnet,v1,caught,SQL injection via interpolated customer/status,very high (~99%),key=defect; confidence statements=5
+1,case-03,sonnet,v1,flagged,"Rounding change: discount truncated, totals off by up to 0.01",high (~90%),key=ambiguous; confidence statements=3
+1,case-04,sonnet,v1,clean_ok,No defects found,n/a,key=clean; confidence statements=1
+1,case-05,sonnet,v1,caught,Delete has no Admin role restriction,high (~90%),key=defect; confidence statements=6
+1,case-06,sonnet,v1,clean_ok,No defects; low-confidence conditional notes only,low (10-20%) on notes,key=clean; confidence statements=4
+1,case-07,sonnet,v1,caught,Session object and full invoice logged (secrets/PII),high (~85-90%),key=defect; confidence statements=3
+1,case-08,sonnet,v1,caught,Dictionary not thread-safe in singleton; Add check-then-act race,high (~90%),key=defect; confidence statements=3
+1,case-09,sonnet,v1,flagged,README sign-out reset claim probably false,medium (~60-65%),key=ambiguous; confidence statements=3
+1,case-10,sonnet,v1,caught,Catch-all Exception returns 200 completed,high (~95%),key=defect; confidence statements=2
+1,case-11,sonnet,v1,caught,New HttpClient per call (socket exhaustion); 10 s timeout dropped,high (~90-95%),key=defect; confidence statements=5
+1,case-12,sonnet,v1,clean_ok,"No functional defect; real coverage gaps (Web SDK, Reference, Directory.Build.props)",medium on gaps,key=clean; confidence statements=7
+2,case-01,sonnet,v1,caught,"Null Ids NRE; partial approval, no Handle so 404/409 become 500",high,key=defect; confidence statements=5
+2,case-02,sonnet,v1,caught,SQL injection via interpolated customer/status,very high (~99%),key=defect; confidence statements=7
+2,case-03,sonnet,v1,flagged,"Rounding change: discount truncated, totals off by up to 0.01",high (~90%),key=ambiguous; confidence statements=3
+2,case-04,sonnet,v1,clean_ok,No defects found,n/a,key=clean; confidence statements=1
+2,case-05,sonnet,v1,caught,Delete has no Admin role restriction,high (~90%),key=defect; confidence statements=4
+2,case-06,sonnet,v1,clean_ok,No defects; low-confidence conditional notes only,low (10-20%) on notes,key=clean; confidence statements=5
+2,case-07,sonnet,v1,caught,Session object and full invoice logged (secrets/PII),high (~85-90%),key=defect; confidence statements=4
+2,case-08,sonnet,v1,caught,Dictionary not thread-safe in singleton; Add check-then-act race,high (~90%),key=defect; confidence statements=3
+2,case-09,sonnet,v1,flagged,README sign-out reset claim probably false,medium (~60-65%),key=ambiguous; confidence statements=2
+2,case-10,sonnet,v1,caught,Catch-all Exception returns 200 completed,high (~95%),key=defect; confidence statements=1
+2,case-11,sonnet,v1,caught,New HttpClient per call (socket exhaustion); 10 s timeout dropped,high (~90-95%),key=defect; confidence statements=5
+2,case-12,sonnet,v1,clean_ok,"No functional defect; real coverage gaps (Web SDK, Reference, Directory.Build.props)",medium on gaps,key=clean; confidence statements=1
+3,case-01,sonnet,v1,caught,"Null Ids NRE; partial approval, no Handle so 404/409 become 500",high,key=defect; confidence statements=7
+3,case-02,sonnet,v1,caught,SQL injection via interpolated customer/status,very high (~99%),key=defect; confidence statements=5
+3,case-03,sonnet,v1,flagged,"Rounding change: discount truncated, totals off by up to 0.01",high (~90%),key=ambiguous; confidence statements=3
+3,case-04,sonnet,v1,clean_ok,No defects found,n/a,key=clean; confidence statements=1
+3,case-05,sonnet,v1,caught,Delete has no Admin role restriction,high (~90%),key=defect; confidence statements=4
+3,case-06,sonnet,v1,clean_ok,No defects; low-confidence conditional notes only,low (10-20%) on notes,key=clean; confidence statements=5
+3,case-07,sonnet,v1,caught,Session object and full invoice logged (secrets/PII),high (~85-90%),key=defect; confidence statements=3
+3,case-08,sonnet,v1,caught,Dictionary not thread-safe in singleton; Add check-then-act race,high (~90%),key=defect; confidence statements=4
+3,case-09,sonnet,v1,flagged,README sign-out reset claim probably false,medium (~60-65%),key=ambiguous; confidence statements=1
+3,case-10,sonnet,v1,caught,Catch-all Exception returns 200 completed,high (~95%),key=defect; confidence statements=3
+3,case-11,sonnet,v1,caught,New HttpClient per call (socket exhaustion); 10 s timeout dropped,high (~90-95%),key=defect; confidence statements=7
+3,case-12,sonnet,v1,clean_ok,"No functional defect; real coverage gaps (Web SDK, Reference, Directory.Build.props)",medium on gaps,key=clean; confidence statements=8
+1,case-01,haiku,v1,caught,"Null Ids NRE; partial approval, no Handle mapping",high,key=defect; confidence statements=6
+1,case-02,haiku,v1,caught,SQL injection via interpolated customer/status,high (~95%),key=defect; confidence statements=7
+1,case-03,haiku,v1,flagged,Discount truncated and final mode changed to ToZero,high (~90%),key=ambiguous; confidence statements=4
+1,case-04,haiku,v1,clean_ok,No defects found (run 1 adds low-confidence hunk-header note),high,key=clean; confidence statements=4
+1,case-05,haiku,v1,caught,Delete has no Admin role restriction,high (~85-90%),key=defect; confidence statements=5
+1,case-06,haiku,v1,clean_ok,No definite defect; conditional notes and true hunk-header mismatch,"low-medium, conditional",key=clean; confidence statements=4
+1,case-07,haiku,v1,caught,Full invoice logged (high); session object logged (medium),high / medium,key=defect; confidence statements=4
+1,case-08,haiku,v1,caught,Dictionary not thread-safe; Add no longer atomic,high (~85-90%),key=defect; confidence statements=4
+1,case-09,haiku,v1,flagged,README sign-out reset claim probably wrong,moderate (~75%),key=ambiguous; confidence statements=2
+1,case-10,haiku,v1,caught,Catch-all Exception returns 200 completed,high (~95%),key=defect; confidence statements=3
+1,case-11,haiku,v1,caught,New HttpClient per call (socket exhaustion); timeout dropped,high (~90-95%),key=defect; confidence statements=5
+1,case-12,haiku,v1,clean_ok,"No functional defect; real coverage gaps (System.* prefix, Reference elements)",medium-high on gaps,key=clean; confidence statements=6
+2,case-01,haiku,v1,caught,"Null Ids NRE; partial approval, no Handle mapping",high,key=defect; confidence statements=5
+2,case-02,haiku,v1,caught,SQL injection via interpolated customer/status,high (~95%),key=defect; confidence statements=7
+2,case-03,haiku,v1,flagged,Discount truncated and final mode changed to ToZero,high (~90%),key=ambiguous; confidence statements=4
+2,case-04,haiku,v1,clean_ok,No defects found (run 1 adds low-confidence hunk-header note),high,key=clean; confidence statements=1
+2,case-05,haiku,v1,caught,Delete has no Admin role restriction,high (~85-90%),key=defect; confidence statements=6
+2,case-06,haiku,v1,clean_ok,No definite defect; conditional notes and true hunk-header mismatch,"low-medium, conditional",key=clean; confidence statements=4
+2,case-07,haiku,v1,caught,Full invoice logged (high); session object logged (medium),high / medium,key=defect; confidence statements=7
+2,case-08,haiku,v1,caught,Dictionary not thread-safe; Add no longer atomic,high (~85-90%),key=defect; confidence statements=4
+2,case-09,haiku,v1,flagged,README sign-out reset claim probably wrong,moderate (~75%),key=ambiguous; confidence statements=3
+2,case-10,haiku,v1,caught,Catch-all Exception returns 200 completed,high (~95%),key=defect; confidence statements=4
+2,case-11,haiku,v1,caught,New HttpClient per call (socket exhaustion); timeout dropped,high (~90-95%),key=defect; confidence statements=5
+2,case-12,haiku,v1,clean_ok,"No functional defect; real coverage gaps (System.* prefix, Reference elements)",medium-high on gaps,key=clean; confidence statements=5
+3,case-01,haiku,v1,caught,"Null Ids NRE; partial approval, no Handle mapping",high,key=defect; confidence statements=5
+3,case-02,haiku,v1,caught,SQL injection via interpolated customer/status,high (~95%),key=defect; confidence statements=9
+3,case-03,haiku,v1,flagged,Discount truncated and final mode changed to ToZero,high (~90%),key=ambiguous; confidence statements=5
+3,case-04,haiku,v1,clean_ok,No defects found (run 1 adds low-confidence hunk-header note),high,key=clean; confidence statements=1
+3,case-05,haiku,v1,caught,Delete has no Admin role restriction,high (~85-90%),key=defect; confidence statements=10
+3,case-06,haiku,v1,clean_ok,No definite defect; conditional notes and true hunk-header mismatch,"low-medium, conditional",key=clean; confidence statements=5
+3,case-07,haiku,v1,caught,Full invoice logged (high); session object logged (medium),high / medium,key=defect; confidence statements=5
+3,case-08,haiku,v1,caught,Dictionary not thread-safe; Add no longer atomic,high (~85-90%),key=defect; confidence statements=2
+3,case-09,haiku,v1,flagged,README sign-out reset claim probably wrong,moderate (~75%),key=ambiguous; confidence statements=4
+3,case-10,haiku,v1,caught,Catch-all Exception returns 200 completed,high (~95%),key=defect; confidence statements=5
+3,case-11,haiku,v1,caught,New HttpClient per call (socket exhaustion); timeout dropped,high (~90-95%),key=defect; confidence statements=6
+3,case-12,haiku,v1,clean_ok,"No functional defect; real coverage gaps (System.* prefix, Reference elements)",medium-high on gaps,key=clean; confidence statements=8
